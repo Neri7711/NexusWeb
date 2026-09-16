@@ -1,60 +1,236 @@
 ---
+// src/pages/proyectos.astro
 import Layout from '../layouts/Layout.astro';
 import proyectosData from '../data/proyectos.json';
+import equiposData from '../data/equipos.json';
 ---
 
-<Layout title="Proyectos">
-  <h1>Proyectos de Nexus Labs</h1>
-  <p class="desc">Iniciativas y desarrollos en marcha por parte de nuestras áreas.</p>
+<Layout title="Catálogo de Proyectos">
+  <section class="proyectos-container">
+    <header class="section-header">
+      <span class="hud-tag">[ 03 / CATÁLOGO & DESARROLLOS TÁCTICOS ]</span>
+      <h1 class="hero-title hover-diff">Proyectos</h1>
+      <p class="hero-desc">
+        Iniciativas técnicas, investigación y prototipos desarrollados por los equipos de Nexus Labs.
+      </p>
+    </header>
 
-  <div class="proyectos-grid">
-    {proyectosData.map((proyecto) => (
-      <div class="card">
-        <h2>{proyecto.titulo}</h2>
-        <span class="badge">{proyecto.equipoId}</span>
-        <p>{proyecto.descripcion}</p>
-        <div class="techs">
-          {proyecto.tecnologias.map((tech) => (
-            <span class="tech-tag">{tech}</span>
-          ))}
-        </div>
-      </div>
-    ))}
-  </div>
+    <!-- Filtros Tácticos HUD -->
+    <div class="filter-bar">
+      <span class="filter-label">// FILTRAR:</span>
+      <button class="filter-btn active" data-filter="all">TODOS</button>
+      {equiposData.map((equipo) => (
+        <button class="filter-btn" data-filter={equipo.id}>
+          {equipo.nombre.toUpperCase()}
+        </button>
+      ))}
+    </div>
+
+    <div class="proyectos-grid">
+      {proyectosData.map((proyecto) => (
+        <article class="proyecto-card hover-card" data-area={proyecto.equipoId}>
+          <div class="card-header">
+            <span class="hud-badge">{proyecto.equipoId}</span>
+            <span class="status-dot"></span>
+          </div>
+          <h2 class="proyecto-title">{proyecto.titulo}</h2>
+          <p class="proyecto-desc">{proyecto.descripcion}</p>
+          
+          <div class="tech-stack">
+            {proyecto.tecnologias.map((tech) => (
+              <span class="tech-tag">{tech}</span>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
 </Layout>
 
+<script>
+  // Script para filtrado dinámico en cliente
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.proyecto-card');
+
+  // Leer parámetro URL si proviene de la página de Equipos
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialFilter = urlParams.get('area');
+
+  function applyFilter(filterId: string) {
+    filterBtns.forEach((b) => {
+      b.classList.toggle('active', b.getAttribute('data-filter') === filterId);
+    });
+
+    projectCards.forEach((card) => {
+      const area = card.getAttribute('data-area');
+      if (filterId === 'all' || filterId === area) {
+        (card as HTMLElement).style.display = 'flex';
+      } else {
+        (card as HTMLElement).style.display = 'none';
+      }
+    });
+  }
+
+  if (initialFilter) {
+    applyFilter(initialFilter);
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter') || 'all';
+      applyFilter(filter);
+    });
+  });
+</script>
+
 <style>
-  h1 { margin-bottom: 0.5rem; }
-  .desc { color: #aaa; margin-bottom: 2rem; }
+  .proyectos-container {
+    padding: 140px 48px 80px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-header {
+    margin-bottom: 40px;
+  }
+  .hud-tag {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--cyber-acid-lime);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .hero-desc {
+    color: var(--muted-silver);
+    font-size: 1.1rem;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-steel);
+  }
+  .filter-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted-silver);
+    margin-right: 8px;
+  }
+  .filter-btn {
+    background: var(--surface-graphite);
+    border: 1px solid var(--border-steel);
+    color: var(--muted-silver);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+  .filter-btn:hover {
+    border-color: var(--stark-white);
+    color: var(--stark-white);
+  }
+  .filter-btn.active {
+    border-color: var(--cyber-acid-lime);
+    color: var(--cyber-acid-lime);
+    background: rgba(212, 255, 0, 0.05);
+  }
+
   .proyectos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
   }
-  .card {
-    background: #18181c;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid #2a2a30;
+  .proyecto-card {
+    position: relative;
+    background: var(--surface-graphite);
+    border: 1px solid var(--border-steel);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+    transition: border-color 0.3s ease, transform 0.3s ease;
   }
-  .card h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
-  .badge {
-    display: inline-block;
-    background: #2b2b36;
-    color: #8a8aff;
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
+  .proyecto-card::before, .proyecto-card::after {
+    content: '+';
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted-silver);
+    font-size: 12px;
+  }
+  .proyecto-card::before { top: 8px; left: 12px; }
+  .proyecto-card::after { top: 8px; right: 12px; }
+
+  .proyecto-card:hover {
+    border-color: var(--cyber-acid-lime);
+    transform: translateY(-4px);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .hud-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--cyber-acid-lime);
+    background: rgba(212, 255, 0, 0.05);
+    border: 1px solid rgba(212, 255, 0, 0.2);
+    padding: 4px 8px;
     text-transform: uppercase;
-    margin-bottom: 1rem;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
   }
-  .card p { color: #ccc; margin-bottom: 1rem; font-size: 0.95rem; }
-  .techs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--cyber-acid-lime);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--cyber-acid-lime);
+  }
+  .proyecto-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .proyecto-desc {
+    color: var(--muted-silver);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .tech-stack {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border-steel);
+    padding-top: 16px;
+  }
   .tech-tag {
-    background: #22222a;
-    color: #aaa;
-    font-size: 0.75rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--stark-white);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-steel);
+    padding: 4px 8px;
+  }
+
+  @media (max-width: 768px) {
+    .proyectos-container { padding: 100px 24px 60px 24px; }
   }
 </style>

@@ -1,36 +1,158 @@
 ---
+// src/pages/equipos.astro
 import Layout from '../layouts/Layout.astro';
 import equiposData from '../data/equipos.json';
 ---
 
 <Layout title="Nuestros Equipos">
-  <h1>Nuestros Equipos</h1>
-  <p class="desc">Conoce las 4 áreas que conforman Nexus Labs.</p>
+  <section class="equipos-container">
+    <header class="section-header">
+      <span class="hud-tag">[ 02 / SECCIONES & ÁREAS DE DESARROLLO ]</span>
+      <h1 class="hero-title hover-diff">Nuestros Equipos</h1>
+      <p class="hero-desc">
+        Las 4 áreas especializadas que impulsan la innovación tecnológica dentro de Nexus Labs.
+      </p>
+    </header>
 
-  <div class="equipos-grid">
-    {equiposData.map((equipo) => (
-      <div class="card">
-        <h2>{equipo.nombre}</h2>
-        <p>{equipo.descripcion}</p>
-      </div>
-    ))}
-  </div>
+    <div class="equipos-grid">
+      {equiposData.map((equipo, index) => (
+        <article class="equipo-card hover-card">
+          <div class="card-header">
+            <span class="hud-badge">AREA // 0{index + 1}</span>
+            <span class="hud-id">{equipo.id}</span>
+          </div>
+          <h2 class="equipo-title">{equipo.nombre}</h2>
+          <p class="equipo-desc">{equipo.descripcion}</p>
+          <div class="card-footer">
+            <a href={`/proyectos?area=${equipo.id}`} class="explore-btn">
+              VER PROYECTOS <span class="arrow">→</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
 </Layout>
 
 <style>
-  h1 { margin-bottom: 0.5rem; }
-  .desc { color: #aaa; margin-bottom: 2rem; }
+  .equipos-container {
+    padding: 140px 48px 80px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-header {
+    margin-bottom: 60px;
+  }
+  .hud-tag {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--cyber-acid-lime);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .hero-desc {
+    color: var(--muted-silver);
+    font-size: 1.1rem;
+    max-width: 600px;
+    line-height: 1.6;
+  }
   .equipos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
   }
-  .card {
-    background: #18181c;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid #2a2a30;
+  .equipo-card {
+    position: relative;
+    background: var(--surface-graphite);
+    border: 1px solid var(--border-steel);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 320px;
+    transition: border-color 0.3s ease, transform 0.3s ease;
   }
-  .card h2 { margin-bottom: 0.75rem; font-size: 1.25rem; }
-  .card p { color: #ccc; font-size: 0.95rem; line-height: 1.5; }
+  .equipo-card::before, .equipo-card::after {
+    content: '+';
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted-silver);
+    font-size: 12px;
+  }
+  .equipo-card::before { top: 8px; left: 12px; }
+  .equipo-card::after { top: 8px; right: 12px; }
+
+  .equipo-card:hover {
+    border-color: var(--cyber-acid-lime);
+    transform: translateY(-4px);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .hud-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--cyber-acid-lime);
+    background: rgba(212, 255, 0, 0.05);
+    border: 1px solid rgba(212, 255, 0, 0.2);
+    padding: 4px 8px;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  }
+  .hud-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted-silver);
+    text-transform: uppercase;
+  }
+  .equipo-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .equipo-desc {
+    color: var(--muted-silver);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .card-footer {
+    border-top: 1px solid var(--border-steel);
+    padding-top: 20px;
+  }
+  .explore-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--stark-white);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+  }
+  .equipo-card:hover .explore-btn {
+    color: var(--cyber-acid-lime);
+  }
+  .arrow {
+    transition: transform 0.3s ease;
+  }
+  .equipo-card:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 768px) {
+    .equipos-container { padding: 100px 24px 60px 24px; }
+  }
 </style>

@@ -2,50 +2,52 @@
 // src/components/Navbar.astro
 ---
 
-<header class="navbar">
-  <div class="container">
-    <a href="/" class="brand">
-      <strong>Nexus Labs</strong>
-    </a>
-    <nav class="nav-links">
-      <a href="/">Quiénes Somos</a>
-      <a href="/equipos">Equipos</a>
-      <a href="/proyectos">Proyectos</a>
-    </nav>
+<nav class="hud-dock">
+  <div class="dock-brand">
+    <span style="color: var(--cyber-acid-lime)">//</span> NEXUS.LABS
   </div>
-</header>
+  <div class="dock-links">
+    <a href="/">Quiénes Somos</a>
+    <a href="/equipos">Equipos</a>
+    <a href="/proyectos">Proyectos</a>
+  </div>
+</nav>
 
 <style>
-  .navbar {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    padding: 1rem 0;
-    border-bottom: 1px solid #333;
-  }
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
+  .hud-dock {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 12px 32px;
+    background: rgba(18, 19, 22, 0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-steel);
+    border-radius: 100px;
+    width: calc(100% - 96px);
+    max-width: 1100px;
   }
-  .brand {
-    color: #ffffff;
-    font-size: 1.25rem;
-    text-decoration: none;
+  .dock-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
   }
-  .nav-links {
+  .dock-links {
     display: flex;
-    gap: 1.5rem;
+    gap: 24px;
   }
-  .nav-links a {
-    color: #cccccc;
+  .dock-links a {
+    color: var(--muted-silver);
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    transition: color 0.3s ease;
   }
-  .nav-links a:hover {
-    color: #ffffff;
+  .dock-links a:hover {
+    color: var(--cyber-acid-lime);
   }
 </style>

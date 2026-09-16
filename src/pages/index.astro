@@ -1,47 +1,81 @@
 ---
+// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Home - Quiénes Somos">
-  <section class="hero">
-    <h1>Bienvenidos a Nexus Labs</h1>
-    <p class="subtitle">
-      Espacio multidisciplinario de desarrollo tecnológico, innovación y proyectos estudiantiles.
-    </p>
-  </section>
-
-  <section class="about">
-    <h2>¿Quiénes somos?</h2>
-    <p>
-      Nexus Labs es un laboratorio de desarrollo integrado por equipos especializados en distintas áreas de la tecnología y la ingeniería. Nuestro objetivo es impulsar proyectos prácticos, fomentando el aprendizaje colaborativo y la innovación técnica.
-    </p>
+  <section class="hero-section">
+    <div id="webgl-hero-container"></div>
+    <div class="hero-content">
+      <span class="hud-tag">[ LAB MULTIDISCIPLINARIO ]</span>
+      <h1 class="hero-title">Nexus Labs</h1>
+      <p class="hero-desc">
+        Espacio de desarrollo tecnológico, robótica, software e innovación de la Universidad Panamericana.
+      </p>
+    </div>
   </section>
 </Layout>
 
+<script>
+  // Objeto 3D interactivo en el Hero
+  const container = document.getElementById('webgl-hero-container');
+  if (container) {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    const geo = new THREE.OctahedronGeometry(1.5, 2);
+    const mat = new THREE.MeshBasicMaterial({ color: 0xD4FF00, wireframe: true, transparent: true, opacity: 0.3 });
+    const mesh = new THREE.Mesh(geo, mat);
+    scene.add(mesh);
+
+    function animate() {
+      mesh.rotation.y += 0.005;
+      mesh.rotation.x += 0.002;
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+</script>
+
 <style>
-  .hero {
-    text-align: center;
-    padding: 3rem 0;
+  .hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 48px 100px 48px;
   }
-  .hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  #webgl-hero-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
   }
-  .subtitle {
-    color: #aaaaaa;
-    font-size: 1.2rem;
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
   }
-  .about {
-    background: #18181c;
-    padding: 2rem;
-    border-radius: 8px;
-    margin-top: 2rem;
+  .hud-tag {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--cyber-acid-lime);
+    font-size: 11px;
   }
-  .about h2 {
-    margin-bottom: 1rem;
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 5rem;
+    line-height: 0.95;
+    text-transform: uppercase;
+    margin: 16px 0;
   }
-  .about p {
+  .hero-desc {
+    color: var(--muted-silver);
+    font-size: 1.1rem;
     line-height: 1.6;
-    color: #dddddd;
   }
 </style>
