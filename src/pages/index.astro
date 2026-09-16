@@ -1,11 +1,47 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Home - Quiénes Somos">
+  <section class="hero">
+    <h1>Bienvenidos a Nexus Labs</h1>
+    <p class="subtitle">
+      Espacio multidisciplinario de desarrollo tecnológico, innovación y proyectos estudiantiles.
+    </p>
+  </section>
+
+  <section class="about">
+    <h2>¿Quiénes somos?</h2>
+    <p>
+      Nexus Labs es un laboratorio de desarrollo integrado por equipos especializados en distintas áreas de la tecnología y la ingeniería. Nuestro objetivo es impulsar proyectos prácticos, fomentando el aprendizaje colaborativo y la innovación técnica.
+    </p>
+  </section>
 </Layout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    color: #aaaaaa;
+    font-size: 1.2rem;
+  }
+  .about {
+    background: #18181c;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+  }
+  .about h2 {
+    margin-bottom: 1rem;
+  }
+  .about p {
+    line-height: 1.6;
+    color: #dddddd;
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import proyectosData from '../data/proyectos.json';
+---
+
+<Layout title="Proyectos">
+  <h1>Proyectos de Nexus Labs</h1>
+  <p class="desc">Iniciativas y desarrollos en marcha por parte de nuestras áreas.</p>
+
+  <div class="proyectos-grid">
+    {proyectosData.map((proyecto) => (
+      <div class="card">
+        <h2>{proyecto.titulo}</h2>
+        <span class="badge">{proyecto.equipoId}</span>
+        <p>{proyecto.descripcion}</p>
+        <div class="techs">
+          {proyecto.tecnologias.map((tech) => (
+            <span class="tech-tag">{tech}</span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  h1 { margin-bottom: 0.5rem; }
+  .desc { color: #aaa; margin-bottom: 2rem; }
+  .proyectos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: #18181c;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #2a2a30;
+  }
+  .card h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .badge {
+    display: inline-block;
+    background: #2b2b36;
+    color: #8a8aff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .card p { color: #ccc; margin-bottom: 1rem; font-size: 0.95rem; }
+  .techs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tech-tag {
+    background: #22222a;
+    color: #aaa;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+</style>

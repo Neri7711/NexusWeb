@@ -1,0 +1,51 @@
+---
+// src/components/Navbar.astro
+---
+
+<header class="navbar">
+  <div class="container">
+    <a href="/" class="brand">
+      <strong>Nexus Labs</strong>
+    </a>
+    <nav class="nav-links">
+      <a href="/">Quiénes Somos</a>
+      <a href="/equipos">Equipos</a>
+      <a href="/proyectos">Proyectos</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .navbar {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 1rem 0;
+    border-bottom: 1px solid #333;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    color: #ffffff;
+    font-size: 1.25rem;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .nav-links a {
+    color: #cccccc;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover {
+    color: #ffffff;
+  }
+</style>

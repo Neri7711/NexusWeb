@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import equiposData from '../data/equipos.json';
+---
+
+<Layout title="Nuestros Equipos">
+  <h1>Nuestros Equipos</h1>
+  <p class="desc">Conoce las 4 áreas que conforman Nexus Labs.</p>
+
+  <div class="equipos-grid">
+    {equiposData.map((equipo) => (
+      <div class="card">
+        <h2>{equipo.nombre}</h2>
+        <p>{equipo.descripcion}</p>
+      </div>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  h1 { margin-bottom: 0.5rem; }
+  .desc { color: #aaa; margin-bottom: 2rem; }
+  .equipos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: #18181c;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #2a2a30;
+  }
+  .card h2 { margin-bottom: 0.75rem; font-size: 1.25rem; }
+  .card p { color: #ccc; font-size: 0.95rem; line-height: 1.5; }
+</style>
